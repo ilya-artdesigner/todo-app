@@ -5,6 +5,10 @@
 /.pnp
 .pnp.js
 
+# info 
+README.md
+
+
 # lock
 package-lock.json
 
