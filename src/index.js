@@ -18,7 +18,7 @@ const App = () => {
   ]
 
   return (
-    <div>
+    <div className="container">
       <AppHeader />
       <SearchPanel />
       <TodoList todos={todoData} />
