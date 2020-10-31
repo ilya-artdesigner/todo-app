@@ -6,11 +6,11 @@ const SearchPanel = () => {
 
   return (
     <div className="d-flex justify-content-between align-items-center search-panel">
-      <input className="input-group form-control search" placeholder={caption} />
-      <section className="d-flex justify-content-between list-controls">
-        <button className="btn btn-primary">All</button>
-        <button className="btn btn-outline-secondary">Active</button>
-        <button className="btn btn-outline-success">Done</button>
+      <input className="col input-group form-control search" placeholder={caption} />
+      <section className="d-inline flex-nowrap list-controls">
+        <button className="btn btn-outline-primary" data-active="true">All</button>
+        <button className="btn btn-outline-primary">Active</button>
+        <button className="btn btn-outline-primary">Done</button>
       </section>
     </div>
   );
