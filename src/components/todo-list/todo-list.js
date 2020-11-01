@@ -9,10 +9,6 @@ const TodoList = ({todos}) => {
       <li className="list-group-item d-flex justify-content-between align-items-center"
           key={id}>
         <TodoListItem { ...itemProps }/>
-        <section className="d-flex justify-content-between items-controls">
-          <button className="btn btn-outline-danger"><i className="fas fa-trash"></i></button>
-          <button className="btn btn-outline-success"><i className="fas fa-exclamation"></i></button>
-        </section>
       </li>
     );
   });

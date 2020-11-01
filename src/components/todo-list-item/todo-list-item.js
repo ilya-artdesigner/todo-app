@@ -3,20 +3,49 @@ import './todo-list-item.css'
 
 export default class TodoListItem extends Component {
 
+  state = {
+    done: false,
+    important: false
+  }
+
+  onLabelClick = () => {
+    this.setState(({done}) => {
+      return { done: !done }
+    });
+  };
+
+  onMarkImportant = () => {
+    this.setState( ({important}) => {
+      return { important: !important }
+    });
+  };
 
   render() {
 
-    const {label, important = false} = this.props;
+    const { label } = this.props;
+    const { done, important } = this.state;
 
-    const style = {
-      color: important && 'tomato'
+
+    let classNames = "todo-list-item";
+    if (done) {
+      classNames += ' done';
+    }
+
+    if (important) {
+      classNames += ' important'
     }
 
     return (
-      <span className="todo-list-item"
-            style={style}>
-        {label}
-      </span>
+      <>
+        <span className={classNames}
+              onClick={ this.onLabelClick }>
+          {label}
+        </span>
+        <section className="d-flex justify-content-between items-controls">
+          <button className="btn btn-outline-danger"><i className="fas fa-trash"></i></button>
+          <button className="btn btn-outline-success" onClick={this.onMarkImportant}><i className="fas fa-exclamation"></i></button>
+        </section>
+      </>
     );
   }
 }
