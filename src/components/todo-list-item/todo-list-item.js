@@ -22,7 +22,7 @@ export default class TodoListItem extends Component {
 
   render() {
 
-    const { label } = this.props;
+    const { label, onDeleted } = this.props;
     const { done, important } = this.state;
 
 
@@ -42,7 +42,7 @@ export default class TodoListItem extends Component {
           {label}
         </span>
         <section className="d-flex justify-content-between items-controls">
-          <button className="btn btn-outline-danger"><i className="fas fa-trash"></i></button>
+          <button className="btn btn-outline-danger" onClick={onDeleted}><i className="fas fa-trash"></i></button>
           <button className="btn btn-outline-success" onClick={this.onMarkImportant}><i className="fas fa-exclamation"></i></button>
         </section>
       </>
