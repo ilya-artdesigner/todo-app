@@ -2,8 +2,11 @@ import React, {Component} from 'react';
 import TodoList from '../todo-list/todo-list';
 import AppHeader from '../app-header/app-header';
 import SearchPanel from '../search-panel/search-panel';
+import AppFooter from '../app-footer/app-footer';
 
 export default class App extends Component {
+
+  maxId = 100;
 
   state = {
     todoData : [
@@ -13,6 +16,16 @@ export default class App extends Component {
       {label: 'Fix React bugs', important: false, id: 4},
       {label: 'Drink Vine', important: true, id: 5},
     ]
+  }
+
+  addItem = (data) => {
+    this.setState( ({todoData}) => {
+      const result = [data, ...todoData];
+
+      return {
+        todoData: result
+      }
+    })
   }
 
   deleteItem = (id) => {
@@ -32,7 +45,8 @@ export default class App extends Component {
       <div className="container">
         <AppHeader />
         <SearchPanel />
-        <TodoList todos={this.state.todoData} onDeleted = {this.deleteItem} />
+        <TodoList todos = {this.state.todoData} onDeleted = {this.deleteItem} />
+        <AppFooter addTask = {this.addItem} />
       </div>
     );
   }
