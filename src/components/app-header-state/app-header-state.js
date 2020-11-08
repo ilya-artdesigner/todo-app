@@ -1,8 +1,10 @@
 import React from 'react';
 import './app-header-state.css'
 
-const AppHeaderState = () => {
-  return <span className="list-state">1 more todo, 3 done</span>;
+const AppHeaderState = ({list}) => {
+  const countDone = list.filter(el => el.done).length;
+  const countIn = list.length - countDone;
+  return <span className="list-state">{countIn} more todo, {countDone} done</span>;
 };
 
 export default AppHeaderState;

@@ -6,24 +6,73 @@ import AppFooter from '../app-footer/app-footer';
 
 export default class App extends Component {
 
-  maxId = 100;
+  maxId = 999;
+  minId = 1;
 
   state = {
     todoData : [
-      {label: 'Drink Coffee', important: false, id: 1},
-      {label: 'Make React App', important: true, id: 2},
-      {label: 'Drink Tea', important: false, id: 3},
-      {label: 'Fix React bugs', important: false, id: 4},
-      {label: 'Drink Vine', important: true, id: 5},
+      this.createTodoItem('Drink Coffee'),
+      this.createTodoItem('Make React App'),
+      this.createTodoItem('Drink Tea'),
+      this.createTodoItem('Fix React bugs'),
+      this.createTodoItem('Drink Vine')
     ]
   }
 
-  addItem = (data) => {
-    this.setState( ({todoData}) => {
-      const result = [data, ...todoData];
+  createTodoItem(label) {
+    return ({
+      label: label,
+      id: this.randomId(this.minId, this.maxId),
+      important: false,
+      done: false,
+    });
+  }
 
+  randomId(min, max) {
+    return Math.floor(min + Math.random() * (max + 1 - min));
+  }
+
+  addItem = (data) => {
+    if (!data) alert('Empty task, write down the text');
+    else {
+      const item = this.createTodoItem(data);
+
+      this.setState( ({todoData}) => {
+        const result = [item, ...todoData];
+
+        return { todoData: result }
+      });
+    }
+  }
+
+  toggleProperty(arr, id, prop) {
+
+    const inx = arr.findIndex((el) => el.id === id);
+    const oldItem = arr[inx];
+
+    const newItem = {...oldItem,
+      [prop]: !oldItem[prop]
+    };
+
+    return [
+      ...arr.slice(0,inx),
+      newItem,
+      ...arr.slice(inx + 1)
+    ];
+  }
+
+  onImportant = (id) => {
+    this.setState( ({todoData}) => {
       return {
-        todoData: result
+        todoData: this.toggleProperty(todoData, id, 'important')
+      }
+    })
+  }
+
+  onDone = (id) => {
+    this.setState( ({todoData}) => {
+      return {
+        todoData: this.toggleProperty(todoData, id, 'done')
       }
     })
   }
@@ -43,12 +92,19 @@ export default class App extends Component {
   render() {
     return (
       <div className="container">
-        <AppHeader />
+        <AppHeader todos = {this.state.todoData}/>
         <SearchPanel />
-        <TodoList todos = {this.state.todoData} onDeleted = {this.deleteItem} />
-        <AppFooter addTask = {this.addItem} />
+        <TodoList 
+          todos = {this.state.todoData} 
+          onDeleted = {this.deleteItem}
+          onImportant = {this.onImportant}
+          onDone = {this.onDone}
+        />
+        <AppFooter 
+          addTask = {this.addItem}     
+        />
       </div>
     );
   }
   
-};
+}
