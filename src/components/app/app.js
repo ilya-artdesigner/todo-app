@@ -3,6 +3,8 @@ import TodoList from '../todo-list/todo-list';
 import AppHeader from '../app-header/app-header';
 import SearchPanel from '../search-panel/search-panel';
 import AppFooter from '../app-footer/app-footer';
+import AppHeadPanel from '../app-head-panel/app-head-panel';
+import AppStatusFilter from '../app-status-filter/app-status-filter';
 
 export default class App extends Component {
 
@@ -17,7 +19,8 @@ export default class App extends Component {
       this.createTodoItem('Fix React bugs'),
       this.createTodoItem('Drink Vine')
     ],
-    term: ''
+    term: '',
+    filter: 'all' // all / active / done
   }
 
   search(arr, term) {
@@ -26,6 +29,22 @@ export default class App extends Component {
     } else {
       return arr.filter(item => item.label.toLowerCase().indexOf(term.toLowerCase()) > -1);
     }
+  }
+
+  filter(arr, rule) {
+    switch(rule) {
+      case 'all':
+        return arr;
+      case 'active':
+        return arr.filter(item => !item.done)
+      case 'done':
+        return arr.filter(item => item.done)
+      default: return arr
+    }
+  }
+
+  onFilterChange = (filter) => {
+    this.setState({filter});
   }
 
   onSearchChange = (term) => {
@@ -104,13 +123,18 @@ export default class App extends Component {
 
   render() {
 
-    const { todoData, term } = this.state;
-    const VisibleItems = this.search(todoData, term);
+    const { todoData, term, filter } = this.state;
+    const VisibleItems = this.filter(this.search(todoData, term), filter);
+    
 
     return (
       <div className="container">
         <AppHeader todos = {this.state.todoData}/>
-        <SearchPanel onSearchChange={this.onSearchChange} />
+        <AppHeadPanel>
+          <SearchPanel onSearchChange={this.onSearchChange}/>
+          <AppStatusFilter filter={filter} onFilterChange={this.onFilterChange}/>
+        </AppHeadPanel>
+        
         <TodoList 
           todos = {VisibleItems} 
           onDeleted = {this.deleteItem}

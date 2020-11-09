@@ -4,7 +4,7 @@
   border-right: hidden;
 }
 
-.list-controls .btn[data-active="true"] {
+.list-controls .active {
   background-color: #007bff;
   color: #fff;
   border-color: #007bff;
