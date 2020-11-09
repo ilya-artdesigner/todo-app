@@ -29,7 +29,7 @@ export default class AppFooter extends Component {
           <input className="col form-control"
                  name="task" 
                  type="text"
-                 placeholder="add new task to list"
+                 placeholder="Text of task"
                  onChange={this.onChange}
                  value={this.state.label}
           />

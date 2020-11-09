@@ -16,7 +16,20 @@ export default class App extends Component {
       this.createTodoItem('Drink Tea'),
       this.createTodoItem('Fix React bugs'),
       this.createTodoItem('Drink Vine')
-    ]
+    ],
+    term: ''
+  }
+
+  search(arr, term) {
+    if (term === '') {
+      return arr;
+    } else {
+      return arr.filter(item => item.label.toLowerCase().indexOf(term.toLowerCase()) > -1);
+    }
+  }
+
+  onSearchChange = (term) => {
+    this.setState({term});
   }
 
   createTodoItem(label) {
@@ -90,15 +103,20 @@ export default class App extends Component {
   }
 
   render() {
+
+    const { todoData, term } = this.state;
+    const VisibleItems = this.search(todoData, term);
+
     return (
       <div className="container">
         <AppHeader todos = {this.state.todoData}/>
-        <SearchPanel />
+        <SearchPanel onSearchChange={this.onSearchChange} />
         <TodoList 
-          todos = {this.state.todoData} 
+          todos = {VisibleItems} 
           onDeleted = {this.deleteItem}
           onImportant = {this.onImportant}
           onDone = {this.onDone}
+          onFilter = {this.filterList}
         />
         <AppFooter 
           addTask = {this.addItem}     
