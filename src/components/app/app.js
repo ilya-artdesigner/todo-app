@@ -134,7 +134,6 @@ export default class App extends Component {
           <SearchPanel onSearchChange={this.onSearchChange}/>
           <AppStatusFilter filter={filter} onFilterChange={this.onFilterChange}/>
         </AppHeadPanel>
-        
         <TodoList 
           todos = {VisibleItems} 
           onDeleted = {this.deleteItem}
